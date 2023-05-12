@@ -14,8 +14,8 @@ def extract_from_json(file_to_process):
 def extract():
     #Create an empty dataframe to hold the extracted data
     extracted_data=pd.DataFrame(columns=['Name','Market Cap (US$ Billion)'])
-    for jsonfile in glob.glob("*.json):
-        extracted_data=extracted_data.append(extracted_from_json(jsonfile),ignore_index=True)
+    for jsonfile in glob.glob("*.json"):
+        extracted_data=extracted_data.append(extract_from_json(jsonfile),ignore_index=True)
     return extracted_data
                                                          
 def transform(dataframe):
@@ -27,9 +27,8 @@ def load(targetfile,dataframe):
     dataframe.to_csv(targetfile,index=False)
                      
 def log(message):
-    timestamp_format="%Y-%h-%d-%H:%M:%S"
-    now=datetime.now()
-    timestamp=now.strftime(timestamp_format)
+    timestamp=datetime.now().strftime("%Y-%h-%d-%H:%M:%S")
+    print(f"[{timestamp}] {message}")
 
 log("ETL Job Started")
 log("Extract phase Started")                           
@@ -39,8 +38,7 @@ log("Extract phase Ended")
 
 log("Transform phase Started")
 df=pd.read_csv("exchange_rates.csv",index_col=0)
-exchange_rate=df.loc["GBP","Rate"]
-                              
+exchange_rate=df.loc["GBP","Rate"]                              
 transformed_data=transform(df1)                                                      
 print(transformed_data.head())
 log("Transform phase Ended")
